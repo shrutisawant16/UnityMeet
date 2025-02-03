@@ -1,0 +1,11 @@
+*.py linguist-language=Python
+*.go linguist-language=Go
+*.js linguist-language=JavaScript
+*.mongo linguist-language=MongoDB
+*.txt linguist-language=Natural Language Processing
+*.ai linguist-language=Generative AI
+*.tf linguist-language=Transformers
+*.json linguist-language=JSON
+*.sql linguist-language=SQL
+*.csv linguist-language=CSV
+*.ipynb linguist-language=Jupyter Notebook
