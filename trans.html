@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Speech-to-Text and Translation</title>
+</head>
+<body>
+
+  <button onclick="startSpeechRecognitionAndTranslate()">Start Speech Recognition</button>
+  <p id="spokenText"></p>
+  <button>Translate and Display</button>
+  <div id="translatedText"></div>
+
+  <script>
+    async function startSpeechRecognitionAndTranslate() {
+    let spokenText = '';
+
+    const recognition = new webkitSpeechRecognition();
+    recognition.onresult = async function(event) {
+        spokenText = event.results[0][0].transcript;
+        document.getElementById('spokenText').innerText = `Spoken Text: ${spokenText}`;
+
+        const translatedText = await translateText(spokenText);
+        document.getElementById('translatedText').innerText = `Translated Text (mr): ${translatedText}`;
+    };
+
+    recognition.start();
+}
+
+async function translateText(text) {
+    const apiKey = 'AIzaSyApQxJzw7_YvqWQZwEdLn2M1o-CK_HGMkA'; // Replace with your Google Translate API key
+    const targetLanguage = 'mr'; // Replace with the desired language code
+
+    try {
+        const response = await fetch(`https://translation.googleapis.com/language/translate/v2?key=${apiKey}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                q: text,
+                target: targetLanguage,
+            }),
+        });
+
+        const data = await response.json();
+        return data.data.translations[0].translatedText;
+    } catch (error) {
+        console.error('Error translating text:', error);
+        return '';
+    }
+}
+
+  //   let recognition;
+  //   let spokenText = '';
+
+  //   function startSpeechRecognition() {
+  //     recognition = new webkitSpeechRecognition();
+  //     recognition.onresult = function(event) {
+  //       spokenText = event.results[0][0].transcript;
+  //       document.getElementById('spokenText').innerText = `Spoken Text: ${spokenText}`;
+  //     };
+
+  //     recognition.start();
+  //     translateAndDisplay();
+  //   }
+
+  //   async function translateAndDisplay() {
+  //     if (!spokenText) {
+  //       alert('Please start speech recognition first.');
+  //       return;
+  //     }
+
+  //     const apiKey = 'AIzaSyApQxJzw7_YvqWQZwEdLn2M1o-CK_HGMkA'; // Replace with your Google Translate API key
+  //     const targetLanguage = 'mr'; // Replace with the desired language code
+
+  //     try {
+  //       const response = await fetch(`https://translation.googleapis.com/language/translate/v2?key=${apiKey}`, {
+  //         method: 'POST',
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //         },
+  //         body: JSON.stringify({
+  //           q: spokenText,
+  //           target: targetLanguage,
+  //         }),
+  //       });
+
+  //       const data = await response.json();
+  //       const translatedText = data.data.translations[0].translatedText;
+  //       document.getElementById('translatedText').innerText = `Translated Text (${targetLanguage}): ${translatedText}`;
+  //     } catch (error) {
+  //       console.error('Error translating text:', error);
+  //     }
+  //   } -->
+  //   async function startSpeechRecognitionAndTranslate() {
+  //     let spokenText = '';
+  
+  //     const recognition = new webkitSpeechRecognition();
+  //     recognition.onresult = async function(event) {
+  //         spokenText = event.results[0][0].transcript;
+  //         document.getElementById('spokenText').innerText = `Spoken Text: ${spokenText}`;
+  
+  //         const translatedText = await translateText(spokenText);
+  //         document.getElementById('translatedText').innerText = `Translated Text (mr): ${translatedText}`;
+  //     };
+  
+  //     recognition.start();
+  // }
+  
+  // async function translateText(text) {
+  //     const apiKey = 'YOUR_API_KEY'; // Replace with your Google Translate API key
+  //     const targetLanguage = 'mr'; // Replace with the desired language code
+  
+  //     try {
+  //         const response = await fetch(`https://translation.googleapis.com/language/translate/v2?key=${apiKey}`, {
+  //             method: 'POST',
+  //             headers: {
+  //                 'Content-Type': 'application/json',
+  //             },
+  //             body: JSON.stringify({
+  //                 q: text,
+  //                 target: targetLanguage,
+  //             }),
+  //         });
+  
+  //         const data = await response.json();
+  //         return data.data.translations[0].translatedText;
+  //     } catch (error) {
+  //         console.error('Error translating text:', error);
+  //         return '';
+  //     }
+  // }
+  
+  </script>
+
+</body>
+</html>
